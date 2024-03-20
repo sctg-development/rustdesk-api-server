@@ -8,6 +8,7 @@ on:
     # Pattern matched against refs/tags
     tags:        
       - '*'           # Push events to every tag not containing /
+  workflow_dispatch:
 
 jobs:
 
@@ -32,3 +33,9 @@ jobs:
         args: release
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Print Go version
+      run: go version
+
+    - name: Print Go modules
+      run: go list -m all
