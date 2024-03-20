@@ -1,10 +1,11 @@
 package services
 
 import (
-	"github.com/beego/beego/v2/client/orm"
 	"rustdesk-api-server/app/dto"
 	"rustdesk-api-server/app/models"
 	"strings"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 var Peers = new(PeersService)
@@ -12,7 +13,7 @@ var Peers = new(PeersService)
 type PeersService struct {
 }
 
-// 批量插入
+// Batch insertion
 func (this *PeersService) BatchAdd(uid int32, peers []dto.AbGetPeer) bool {
 	if len(peers) == 0 {
 		return false
@@ -46,7 +47,7 @@ func (this *PeersService) BatchAdd(uid int32, peers []dto.AbGetPeer) bool {
 	return true
 }
 
-// 查询用户名下Peers
+// Query peers under the username
 func (this PeersService) FindPeers(uid int32) []models.Peers {
 	ret := []models.Peers{}
 	_, err := orm.NewOrm().QueryTable(new(models.Peers)).Filter("uid", uid).All(&ret)

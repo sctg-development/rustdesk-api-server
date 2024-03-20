@@ -1,15 +1,16 @@
 package models
 
 import (
-	"github.com/beego/beego/v2/client/orm"
 	"log"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 type Tags struct {
-	Id  int32  `json:"id"`
-	Uid int32  `json:"uid"`
-	Tag string `json:"tag"`
-	Color string  `json:"color,omitempty"`
+	Id    int32  `json:"id"`
+	Uid   int32  `json:"uid"`
+	Tag   string `json:"tag"`
+	Color string `json:"color,omitempty"`
 }
 
 func (u *Tags) TableName() string {
@@ -17,7 +18,7 @@ func (u *Tags) TableName() string {
 }
 
 func init() {
-	log.Printf("初始化模型")
-	// 初始化模型
+	log.Printf("Initialize the model")
+	// Initialize the model
 	orm.RegisterModel(new(Tags))
 }

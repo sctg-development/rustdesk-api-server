@@ -2,10 +2,10 @@ package utils
 
 import "github.com/dgrijalva/jwt-go"
 
-// 指定加密密钥
+// Specify the encryption key
 var jwtSecret = []byte("2d9a0da267bee9c14d8e7aaedeca907c")
 
-// Claim是一些实体（通常指的用户）的状态和额外的元数据
+// A claim is the state and additional metadata of some entity (usually a user).
 type Claims struct {
 	UserId      int    `json:"id"`
 	ClientId    string `json:"client_id"`
@@ -13,17 +13,17 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-// 根据传入的token值获取到Claims对象信息，（进而获取其中的用户名和密码）
+// Obtain the claims object information according to the passed token value, (and then obtain the username and password in it)
 func ParseToken(token string) (*Claims, error) {
 
-	//用于解析鉴权的声明，方法内部主要是具体的解码和校验的过程，最终返回*Token
+	// The method is mainly used to parse the authentication claim, and the internal process of decoding and verification is mainly the specific decoding and verification process, and finally returns the *token
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil
 	})
 
 	if tokenClaims != nil {
-		// 从tokenClaims中获取到Claims对象，并使用断言，将该对象转换为我们自己定义的Claims
-		// 要传入指针，项目中结构体都是用指针传递，节省空间。
+		// We get the Claims object from Token Claims and use assertions to convert that object into Claims that we define ourselves
+		// To pass in pointers, structs in the project are passed with pointers, saving space.
 		if claims, ok := tokenClaims.Claims.(*Claims); ok && tokenClaims.Valid {
 			return claims, nil
 		}

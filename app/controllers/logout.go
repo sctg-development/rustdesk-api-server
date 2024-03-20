@@ -10,7 +10,7 @@ type LogoutController struct {
 	BaseController
 }
 
-// 退出登录
+// Sign out
 func (ctl *LogoutController) Logout() {
 	req := dto.LogoutReq{}
 	if err := ctl.BindJSON(&req); err != nil {
@@ -20,8 +20,8 @@ func (ctl *LogoutController) Logout() {
 	}
 
 	if services.User.Logout(ctl.loginUserInfo, req.Id) {
-		ctl.JSON(beegoHelper.H{"data": "退出完成"})
+		ctl.JSON(beegoHelper.H{"data": "The exit is complete"})
 	} else {
-		ctl.JSON(beegoHelper.H{"error": "退出失败"})
+		ctl.JSON(beegoHelper.H{"error": "Exit failed"})
 	}
 }

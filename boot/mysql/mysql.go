@@ -2,26 +2,27 @@ package mysql
 
 import (
 	"fmt"
+	"rustdesk-api-server/global"
+
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/logs"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/mattn/go-sqlite3"
-	"rustdesk-api-server/global"
 )
 
-// 注册Mysql驱动
+// Register the MySQL driver
 func init() {
 	orm.Debug = true
 
 	if global.ConfigVar.DBType == "mysql" {
-		logs.Info("数据库注册类型 mysql")
+		logs.Info("Database registration type MySQL")
 
 		err := orm.RegisterDriver("mysql", orm.DRMySQL)
 		if err != nil {
-			logs.Error("mysql 注册驱动失败:", err)
+			logs.Error("MySQL Driver Registration Failed:", err)
 		}
 
-		// 格式化连接符
+		// Format the connector
 		connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8",
 			global.ConfigVar.Mysql.Username,
 			global.ConfigVar.Mysql.Password,
@@ -30,23 +31,23 @@ func init() {
 			global.ConfigVar.Mysql.Database,
 		)
 
-		// 注册链接数据库
+		// Sign up for a linked database
 		err = orm.RegisterDataBase("default", "mysql", connStr)
 		if err != nil {
-			logs.Error("mysql 数据库注册失败", err)
+			logs.Error("MySQL database registration failed", err)
 		}
 
 	} else {
-		logs.Info("数据库注册类型 sqlite3")
+		logs.Info("Database registration type sqlite3")
 
 		err := orm.RegisterDriver("sqlite", orm.DRSqlite)
 		if err != nil {
-			logs.Error("sqlite3 注册驱动失败:", err)
+			logs.Error("sqlite3 registration driver failed:", err)
 		}
 
 		err = orm.RegisterDataBase("default", "sqlite3", "sqlite3.db")
 		if err != nil {
-			logs.Error("sqlite3 数据库注册失败", err)
+			logs.Error("sqlite3 database registration failed", err)
 		}
 	}
 

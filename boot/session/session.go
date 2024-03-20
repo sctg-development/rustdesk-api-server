@@ -2,11 +2,11 @@ package session
 
 import beego "github.com/beego/beego/v2/server/web"
 
-// 初始化beego Session设置
+// Initialize the beego session settings
 func init() {
-	//session 过期时间，默认值是 3600 秒
+	//Session expiration time, default is 3600 seconds
 	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 7200
 
-	//session 默认存在客户端的 cookie 的时间，默认值是 3600 秒
+	//Session defaults to the time the client's cookie exists, which is 3600 seconds
 	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 7200
 }

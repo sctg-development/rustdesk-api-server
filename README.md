@@ -1,109 +1,111 @@
 # rustdesk-api-server
-RustDesk Api 服务器端 Go语言版本，支持sqlite3、mysql数据库
 
-登录后可返回同账号下所有在用主机 以本号归属开头
+RustDesk API Server Go version, supports sqlite3, mysql databases
 
-[![Build Release](https://github.com/xiaoyi510/rustdesk-api-server/actions/workflows/build.yml/badge.svg)](https://github.com/xiaoyi510/rustdesk-api-server/actions/workflows/build.yml)
+After logging in, you can return all active hosts under the same account starting with this number
 
-## 编译
-安装Golang 
+[![Build Release](https://github.com/sctg-development/rustdesk-api-server/actions/workflows/build.yml/badge.svg)](https://github.com/sctg-development/rustdesk-api-server/actions/workflows/build.yml)
 
-安装GCC并配置PATH
+## Compilation
 
-## 使用方法
+Install Golang
 
+Install GCC and configure PATH
 
-### 修改数据库连接
-修改 conf/config.yml 中的配置项
+## Usage
+
+### Modify Database Connection
+
+Modify the configuration items in conf/config.yml
+
 ```yaml
-dbtype: mysql # 支持mysql或者sqlite3
+dbtype: mysql # supports mysql or sqlite3
 mysql:
   host: '127.0.0.1'
   port: 3306 
-  database: 'rustdesk' # 数据库名
-  username: 'root' # 数据库用户名
-  password: '' # 数据库密码
+  database: 'rustdesk' # database name
+  username: 'root' # database username
+  password: '' # database password
 app:
-  authkey: 123456 # 授权密码 添加账号或者修改密码使用
-  cryptkey: 123123123123  # 密码加密盐值 建议首次修改后面别改 = =
+  authkey: 123456 # authorization password for adding accounts or modifying passwords
+  cryptkey: 123123123123  # password encryption salt value, recommended not to change after the first modification
 ```
 
-### 搭建跑起来
+### Set Up and Run
 
-1. 运行程序
-   1. 运行程序会自动创建数据表
+1. Run the program
+   1. Running the program will automatically create tables
 
-2. 端口映射(推荐):
-> 直接将21114端口号映射出来 貌似rustdesk默认端口是21114 至少手机端我是~~
+2. Port mapping (recommended):
+   > Directly map port 21114 out, seems like rustdesk default port is 21114, at least for mobile it is ~~
 
+   Nginx server:
+   > Use reverse proxy, reverse proxy can use port 80 or whatever
 
-nginx服务器:
-> 进行反向代理 反向代理可使用80端口什么的
-```nginx
+   ```nginx
+   #PROXY-START/
 
-#PROXY-START/
+   location ^~ /
+   {
+       proxy_pass http://127.0.0.1:21114;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header REMOTE-HOST $remote_addr;
+       proxy_set_header Upgrade $http_upgrade;
+       proxy_set_header Connection $connection_upgrade;
+       proxy_http_version 1.1;
+       # proxy_hide_header Upgrade;
 
-location ^~ /
-{
-    proxy_pass http://127.0.0.1:21114;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header REMOTE-HOST $remote_addr;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
-    proxy_http_version 1.1;
-    # proxy_hide_header Upgrade;
+       add_header X-Cache $upstream_cache_status;
 
-    add_header X-Cache $upstream_cache_status;
+       #Set Nginx Cache
 
-    #Set Nginx Cache
-    
-    
-    set $static_file10BAHqk7 0;
-    if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
-    {
-    	set $static_file10BAHqk7 1;
-    	expires 1m;
-        }
-    if ( $static_file10BAHqk7 = 0 )
-    {
-    add_header Cache-Control no-cache;
-    }
-}
+       set $static_file10BAHqk7 0;
+       if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
+       {
+           set $static_file10BAHqk7 1;
+           expires 1m;
+       }
+       if ( $static_file10BAHqk7 = 0 )
+       {
+           add_header Cache-Control no-cache;
+       }
+   }
 
-#PROXY-END/
-```
+   #PROXY-END/
+   ```
 
-### RustDesk配置
-ID服务器和中继服务器可自行寻找Docker进行安装
+### RustDesk Configuration
 
-此处只说明API服务器配置
+ID server and relay server can be found and installed using Docker
+
+Here only the API server configuration is described
 ![img.png](img.png)
 
-安卓端不需要填写 `http://` 前缀 且必须为 `21114` 端口
+On Android, do not need to fill in the `http://` prefix and must be `21114` port
 
+### Create Account
 
+Request
+<http://127.0.0.1:21114/api/reg?username=test&password=test&auth_key=123456>
 
-### 创建账号
-请求
-http://127.0.0.1:21114/api/reg?username=test&password=test&auth_key=123456
+### Modify Password
 
-### 修改密码
-请求
-http://127.0.0.1:21114/api/set-pwd?username=test&password=test&auth_key=123456
+Request
+<http://127.0.0.1:21114/api/set-pwd?username=test&password=test&auth_key=123456>
 
+## Note
 
-## 注意
-保存地址簿时 `username` 等于 `----` 时不会进行保存
+When saving the address book, if `username` equals `----`, it will not be saved
 
+## About
 
-## 关于
-本项目为学习使用,制作用于 rustdesk 远程协助软件的API服务器交互
+This project is for learning and is used for API server interaction with rustdesk remote assistance software
 
-使用框架:
+Using framework:
 [beego](https://github.com/beego/beego)
 
-由于RustDesk接口固定返回内容= =所以接口返回结构不是很统一
+Because RustDesk interface returns fixed content = =, the interface return structure is not very uniform
 
-## 赞助
+## Sponsorship

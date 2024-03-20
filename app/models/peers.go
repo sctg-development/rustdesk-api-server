@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/beego/beego/v2/client/orm"
 	"log"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 type Peers struct {
@@ -21,7 +22,7 @@ func (u *Peers) TableName() string {
 }
 
 func init() {
-	log.Printf("初始化模型")
-	// 初始化模型
+	log.Printf("Initialize the model")
+	// Initialize the model
 	orm.RegisterModel(new(Peers))
 }

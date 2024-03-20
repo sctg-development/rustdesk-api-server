@@ -1,1 +1,1 @@
-程序启动项
+Program startup items

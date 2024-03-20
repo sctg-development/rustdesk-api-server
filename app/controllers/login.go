@@ -14,10 +14,10 @@ type LoginController struct {
 	BaseController
 }
 
-// 登录
+// login
 func (ctl *LoginController) Login() {
 	if ctl.Ctx.Input.IsPost() {
-		// 获取请求参数
+		// Get the request parameters
 		var req dto.LoginReq
 		if err := ctl.BindJSON(&req); err != nil {
 			ctl.JSON(common.JsonResult{
@@ -28,25 +28,25 @@ func (ctl *LoginController) Login() {
 		if len(req.Username) == 0 {
 			ctl.JSON(common.JsonResult{
 				Code:  -1,
-				Error: "用户名不能为空",
+				Error: "The username cannot be empty",
 			})
 		}
 		req.Password = strings.TrimSpace(req.Password)
 		if len(req.Password) == 0 {
 			ctl.JSON(common.JsonResult{
 				Code:  -1,
-				Error: "密码不能为空",
+				Error: "The password cannot be empty",
 			})
 		}
 		req.Id = strings.TrimSpace(req.Id)
 		if len(req.Id) == 0 {
 			ctl.JSON(common.JsonResult{
 				Code:  -1,
-				Error: "客户端ID不能为空",
+				Error: "The client ID cannot be empty",
 			})
 		}
 
-		// 查询数据库中的账号密码是否合法
+		// Check whether the account and password in the database are valid
 		token, err := services.Login.UserLogin(req.Username, req.Password, req.Id, req.Uuid, ctl.Ctx)
 		if err != nil {
 			//     return json({"type": "access_token","access_token":token,"user":{"name":username,"email":res['email'],"note":res['note'],"status":res['status'],"grp":res['group'],"is_admin":True if res['is_admin']==1 else False }})

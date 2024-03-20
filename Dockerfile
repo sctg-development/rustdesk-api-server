@@ -1,13 +1,20 @@
-FROM alpine:3.15
+FROM golang:1.22 as gobuilder
+RUN apt update && apt install -y build-essential libsqlite3-dev
+RUN mkdir /app
+COPY . /app/
+RUN cd /app/ && go mod tidy && CGO_ENABLED=1 go build -v -o rustdesk-api-server
+
+FROM debian:bookworm-slim
+LABEL maintainer="ronan <ronan@sctg.eu.org>"
 RUN mkdir /app
 
-# 复制配置文件
+# Copy the configuration file
 COPY conf /app/conf
 
-# 复制主文件
-COPY rustdesk-api-server /app
+# Copy the master file
+COPY --from=gobuilder /app/rustdesk-api-server /app/rustdesk-api-server
 WORKDIR /app
-ENTRYPOINT ["./rustdesk-api-server"]
+ENTRYPOINT ["/app/rustdesk-api-server"]
 
-# 导出端口号
-EXPOSE [21114]
+# Export port numbers
+EXPOSE 21114

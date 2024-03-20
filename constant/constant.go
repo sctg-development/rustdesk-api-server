@@ -1,6 +1,6 @@
 package constant
 
 const (
-	ConfigEnv  = "BZ_CONFIG" // 配置文件环境变量
+	ConfigEnv  = "BZ_CONFIG" // Configure file environment variables
 	ConfigFile = "conf/config.yml"
 )

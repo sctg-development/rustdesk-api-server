@@ -1,28 +1,29 @@
 package routers
 
 import (
+	"rustdesk-api-server/app/controllers"
+
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/filter/cors"
-	"rustdesk-api-server/app/controllers"
 )
 
-// 初始化路由服务
+// Initialize the routing service
 func init() {
-	// 跨域解决方案
+	// Cross-domain solutions
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
-		// 允许访问所有源
+		// Allow access to all sources
 		AllowAllOrigins: true,
-		// 可选参数"GET", "POST", "PUT", "DELETE", "OPTIONS" (*为所有)
+		// Optional parameters "GET", "POST", "PUT", "DELETE", "OPTIONS" (*For all)
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		// 指的是允许的Header的种类
+		// Refers to the types of headers that are allowed
 		AllowHeaders: []string{"Origin", "Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
-		// 公开的HTTP标头列表
+		// A list of exposed HTTP headers
 		ExposeHeaders: []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
-		// 如果设置，则允许共享身份验证凭据，例如cookie
+		// If set, it allows the sharing of authentication credentials, such as cookies
 		AllowCredentials: true,
 	}))
 
-	// 设定路由信息
+	// Set the routing information
 	beego.Router("/", &controllers.IndexController{}, "get:Index")
 	beego.Router("/api/heartbeat", &controllers.HeartController{}, "post:Heart")
 	beego.Router("/api/login", &controllers.LoginController{}, "post:Login")
@@ -39,6 +40,6 @@ func init() {
 	beego.Router("/api/users", &controllers.UserController{}, "get:Users")
 	beego.Router("/api/peers", &controllers.UserController{}, "get:Peers")
 
-	// 设置错误路由
+	// Set up an error route
 	beego.ErrorController(&controllers.ErrorController{})
 }

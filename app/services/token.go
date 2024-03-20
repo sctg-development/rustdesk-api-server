@@ -1,10 +1,11 @@
 package services
 
 import (
-	"github.com/beego/beego/v2/client/orm"
 	"log"
 	"rustdesk-api-server/app/models"
 	"time"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 var Token = new(TokenService)
@@ -12,7 +13,7 @@ var Token = new(TokenService)
 type TokenService struct {
 }
 
-// 记录登录状态
+// Record the login status
 func (t *TokenService) Login(user *models.User, clientId, uuid, token2 string) bool {
 	m := orm.NewOrm()
 	md := models.Token{
@@ -27,12 +28,12 @@ func (t *TokenService) Login(user *models.User, clientId, uuid, token2 string) b
 	}
 	//update, err := m.InsertOrUpdate(&md, "uid,client_id,uuid")
 	// `sqlite3` nonsupport InsertOrUpdate in beego
-	// 此orm不支持sqlite3执行 InsertOrUpdate, 拆改两步完成
+	// This orm does not support sqlite3 to execute InsertOrUpdate, which can be completed in two steps
 	oldMd := models.Token{Uid: user.Id, ClientId: clientId, Uuid: uuid}
 	_ = m.Read(&oldMd, "uid", "client_id", "uuid")
 	rowId := int64(0)
 	var err error
-	// 存在主键更新
+	// There is a primary key update
 	if oldMd.Id != 0 {
 		md.Id = oldMd.Id
 		rowId, err = m.Update(&md)
@@ -40,7 +41,7 @@ func (t *TokenService) Login(user *models.User, clientId, uuid, token2 string) b
 			return false
 		}
 	}
-	//不存在主键插入
+	//There is no primary key insertion
 	rowId, err = m.Insert(&md)
 	if err != nil {
 		return false
@@ -52,7 +53,7 @@ func (t *TokenService) Login(user *models.User, clientId, uuid, token2 string) b
 	return true
 }
 
-// 判断是否在线
+// Determine whether it is online or not
 func (u *TokenService) FindToken(uid int32, clientId, uuid string) *models.Token {
 	o := orm.NewOrm()
 	info := &models.Token{}

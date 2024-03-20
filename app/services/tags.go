@@ -2,10 +2,11 @@ package services
 
 import (
 	"encoding/json"
-	"github.com/beego/beego/v2/client/orm"
 	"rustdesk-api-server/app/dto"
 	"rustdesk-api-server/app/models"
 	"strconv"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 var Tags = new(TagsService)
@@ -13,7 +14,7 @@ var Tags = new(TagsService)
 type TagsService struct {
 }
 
-// 批量插入
+// Batch insertion
 func (this *TagsService) BatchAdd(uid int32, tags []string, tag_colors_str string) bool {
 	if len(tags) == 0 {
 		return true
@@ -52,7 +53,7 @@ func (this *TagsService) DeleteAll(uid int32) bool {
 	return true
 }
 
-// 查询用户名下Tag
+// Query the tag of the user name
 func (this *TagsService) FindTags(uid int32) []models.Tags {
 	ret := []models.Tags{}
 	_, err := orm.NewOrm().QueryTable(new(models.Tags)).Filter("uid", uid).All(&ret, "tag", "color")

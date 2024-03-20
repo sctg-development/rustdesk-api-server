@@ -8,7 +8,7 @@ type ErrorController struct {
 
 func (c *ErrorController) Error404() {
 	c.JSON(beegoHelper.H{
-		"error": "未找到页面",
+		"error": "Page not found",
 	})
 	//c.Ctx.WriteString("customize page not found")
 	//c.Data= "page not found"
@@ -17,7 +17,7 @@ func (c *ErrorController) Error404() {
 
 func (c *ErrorController) Error501() {
 	c.JSON(beegoHelper.H{
-		"error": "服务端报错",
+		"error": "An error is reported on the server",
 	})
 	//c.Ctx.WriteString("customize server error")
 	//c.Data["content"] = "server error"

@@ -5,8 +5,8 @@ import (
 	"rustdesk-api-server/app/dto"
 	"rustdesk-api-server/app/services"
 	"rustdesk-api-server/utils/beegoHelper"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 var Address = new(AddressBookController)
@@ -15,7 +15,7 @@ type AddressBookController struct {
 	BaseController
 }
 
-// 查看地址谱列表
+// View a list of address maps
 func (ctl *AddressBookController) List() {
 	ack := dto.AbGetAck{}
 	ack.Tags = []string{}
@@ -24,15 +24,15 @@ func (ctl *AddressBookController) List() {
 	tags := services.Tags.FindTags(ctl.loginUserInfo.Id)
 	for _, item := range tags {
 		ack.Tags = append(ack.Tags, item.Tag)
-		
-		if (item.Color != ""){
+
+		if item.Color != "" {
 			tag_colors[item.Tag], _ = strconv.ParseInt(item.Color, 10, 64)
 		}
 	}
 	jdata_tag_colors, _ := json.Marshal(tag_colors)
 	ack.Tag_colors = string(jdata_tag_colors)
-	
-	// 查询 peers
+
+	// Query peers
 	ack.Peers = []dto.AbGetPeer{}
 	peerDbs := services.Peers.FindPeers(ctl.loginUserInfo.Id)
 	for _, item := range peerDbs {
@@ -46,7 +46,7 @@ func (ctl *AddressBookController) List() {
 		})
 	}
 
-	// 查询出来所有已登录的账号列表
+	// Query the list of all logged-in accounts
 	tokens := services.Token.FindTokens(ctl.loginUserInfo.Id)
 	for _, item := range *tokens {
 		ist := false
@@ -77,46 +77,46 @@ func (ctl *AddressBookController) List() {
 	})
 }
 
-// 更新地址谱
+// Update the address spectrum
 func (ctl *AddressBookController) Update() {
 	req := dto.AbUpdateReq{}
 
 	if err := ctl.BindJSON(&req); err != nil {
 		ctl.JSON(beegoHelper.H{
-			"error": "请求参数异常",
+			"error": "The request parameter is abnormal",
 		})
 		return
 	}
 
-	// 解析数据
+	// Parse the data
 	reqSub := &dto.AbUpdateSub{}
 	err := json.Unmarshal([]byte(req.Data), reqSub)
 	if err != nil {
 		ctl.JSON(beegoHelper.H{
-			"error": "请求数据异常",
+			"error": "The request data is abnormal",
 		})
 	}
 
-	// 批量删除tags
+	// Delete tags in batches
 	services.Tags.DeleteAll(ctl.loginUserInfo.Id)
-	// 批量删除Peers
+	// Delete peers in batches
 	services.Peers.DeleteAll(ctl.loginUserInfo.Id)
 
-	// 开始批量插入tags
+	// Start inserting tags in bulk
 	if !services.Tags.BatchAdd(ctl.loginUserInfo.Id, reqSub.Tags, reqSub.Tag_colors) {
 		ctl.JSON(beegoHelper.H{
-			"error": "导入标签失败",
+			"error": "Failed to import tags",
 		})
 	}
-	// 开始批量插入peers
+	// Start inserting peers in bulk
 	if !services.Peers.BatchAdd(ctl.loginUserInfo.Id, reqSub.Peers) {
 		ctl.JSON(beegoHelper.H{
-			"error": "导入地址簿失败",
+			"error": "Failed to import the address book",
 		})
 	}
 
 	ctl.JSON(beegoHelper.H{
-		"data": "成功",
+		"data": "success",
 	})
 
 }

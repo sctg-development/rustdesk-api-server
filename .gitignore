@@ -19,3 +19,5 @@
 .idea/
 logs
 dist
+.vscode/settings.json
+conf/config.yml

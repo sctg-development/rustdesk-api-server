@@ -9,7 +9,7 @@ type HeartController struct {
 	BaseController
 }
 
-// 心跳检测 POST
+// Heartbeat detection POST
 func (ctl *HeartController) Heart() {
 
 	ctl.JSON(beegoHelper.H{

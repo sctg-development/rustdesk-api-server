@@ -11,14 +11,14 @@ type UserController struct {
 	BaseController
 }
 
-// 当前用户信息
+// Current user information
 func (ctl *UserController) CurrentUser() {
 	ctl.JSON(beegoHelper.H{
 		"name": ctl.loginUserInfo.Username,
 	})
 }
 
-// 注册用户
+// Registered Users
 func (ctl *UserController) Reg() {
 	req := dto.UserRegReq{}
 	req.Username = ctl.GetString("username")
@@ -26,36 +26,36 @@ func (ctl *UserController) Reg() {
 	req.AuthKey = ctl.GetString("auth_key")
 	if len(req.Username) < 4 || len(req.Username) > 20 {
 		ctl.JSON(beegoHelper.H{
-			"error": "用户名在4-20位之间",
+			"error": "The username is between 4 and 20 digits",
 		})
 	}
 
 	if len(req.AuthKey) == 0 {
 		ctl.JSON(beegoHelper.H{
-			"error": "请输入授权码",
+			"error": "Please enter the authorization code",
 		})
 	}
 
-	// 判断注册密钥是否合法
+	// Determine whether the registration key is legitimate
 	if req.AuthKey != global.ConfigVar.App.AuthKey {
 		ctl.JSON(beegoHelper.H{
-			"error": "授权码错误",
+			"error": "The authorization code is incorrect",
 		})
 	}
 
-	// 去注册账号
+	// Go to register an account
 	if services.User.Reg(req.Username, req.Password) {
 		ctl.JSON(beegoHelper.H{
-			"msg": "注册成功",
+			"msg": "Registration is successful",
 		})
 	} else {
 		ctl.JSON(beegoHelper.H{
-			"error": "注册失败",
+			"error": "Registration failed",
 		})
 	}
 }
 
-// 修改用户密码
+// Change the user password
 func (ctl *UserController) SetPwd() {
 	req := dto.UserSetPwdReq{}
 	req.Username = ctl.GetString("username")
@@ -63,45 +63,45 @@ func (ctl *UserController) SetPwd() {
 	req.AuthKey = ctl.GetString("auth_key")
 	if len(req.Username) < 4 || len(req.Username) > 20 {
 		ctl.JSON(beegoHelper.H{
-			"error": "用户名在4-20位之间",
+			"error": "The username is between 4 and 20 digits",
 		})
 	}
 
 	if len(req.AuthKey) == 0 {
 		ctl.JSON(beegoHelper.H{
-			"error": "请输入授权码",
+			"error": "Please enter the authorization code",
 		})
 	}
 
-	// 判断注册密钥是否合法
+	// Determine whether the registration key is legitimate
 	if req.AuthKey != global.ConfigVar.App.AuthKey {
 		ctl.JSON(beegoHelper.H{
-			"error": "授权码错误",
+			"error": "The authorization code is incorrect",
 		})
 	}
 
-	// 去注册账号
+	// Go to register an account
 	if services.User.ResetPassword(req.Username, req.Password) {
 		ctl.JSON(beegoHelper.H{
-			"msg": "修改成功",
+			"msg": "The modification was successful",
 		})
 	} else {
 		ctl.JSON(beegoHelper.H{
-			"error": "修改失败",
+			"error": "The modification failed",
 		})
 	}
 }
 
-// 分组
+// grouping
 func (ctl *UserController) Users() {
 	ctl.JSON(beegoHelper.H{
-		"msg":   "成功",
+		"msg":   "success",
 		"total": 1,
 		"data": []beegoHelper.H{
 			{
-				"name":     "默认用户",
+				"name":     "Default user",
 				"email":    "ff",
-				"note":     "哈哈",
+				"note":     "note",
 				"status":   1,
 				"is_admin": true,
 			},
@@ -111,7 +111,7 @@ func (ctl *UserController) Users() {
 
 func (ctl *UserController) Peers() {
 	ctl.JSON(beegoHelper.H{
-		"msg":   "成功",
+		"msg":   "success",
 		"total": 1,
 		"data": []beegoHelper.H{
 			{
@@ -125,7 +125,7 @@ func (ctl *UserController) Peers() {
 					"device_name": "",
 				},
 				"user":      "ff",
-				"user_name": "占位",
+				"user_name": "Occupancy",
 				"node":      "tt",
 				"is_admin":  true,
 			},

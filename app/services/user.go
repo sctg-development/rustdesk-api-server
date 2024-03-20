@@ -1,11 +1,12 @@
 package services
 
 import (
-	"github.com/beego/beego/v2/client/orm"
 	"rustdesk-api-server/app/models"
 	"rustdesk-api-server/global"
 	"rustdesk-api-server/utils/gmd5"
 	"time"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 var User = new(UserService)
@@ -14,10 +15,10 @@ type UserService struct {
 }
 
 func (u *UserService) Reg(username, password string) bool {
-	// 生成密码
+	// Generate passwords
 	hashPwd := u.GenPwd(password)
 
-	// 插入或者修改
+	// Insert or modify
 	m := &models.User{
 		Username:   username,
 		Password:   hashPwd,
@@ -33,9 +34,9 @@ func (u *UserService) Reg(username, password string) bool {
 	return true
 }
 
-// 生成保存的密码
+// Generate a saved password
 func (u *UserService) GenPwd(password string) string {
-	// 校验密码是否正确
+	// Verify that the password is correct
 	pwd, err := gmd5.Encrypt(password + global.ConfigVar.App.CryptKey)
 	if err != nil {
 		panic("md5 encrypt Err" + err.Error())
@@ -44,9 +45,9 @@ func (u *UserService) GenPwd(password string) string {
 	return pwd
 }
 
-// 重置密码
+// Reset your password
 func (u *UserService) ResetPassword(username string, password string) bool {
-	// 生成密码
+	// Generate passwords
 	hashPwd := u.GenPwd(password)
 
 	m := User.FindByUserName(username)
@@ -62,7 +63,7 @@ func (u *UserService) ResetPassword(username string, password string) bool {
 	return true
 }
 
-// 根据用户名查询用户信息
+// Query user information based on user name
 func (u *UserService) FindByUserName(username string) *models.User {
 	ret := models.User{}
 	err := orm.NewOrm().QueryTable(new(models.User)).Filter("username", username).One(&ret)
@@ -73,7 +74,7 @@ func (u *UserService) FindByUserName(username string) *models.User {
 }
 
 func (u *UserService) Logout(info *models.User, clientId string) bool {
-	// 删除登录的token
+	// Delete the login token
 	token := &models.Token{}
 
 	_, err := orm.NewOrm().Raw("delete from "+token.TableName()+" where uid = ? and client_id = ?", info.Id, clientId).Exec()

@@ -22,7 +22,7 @@ func GenerateJwtToken(userId int, username, token, clientId, uuid string) (strin
 	}
 
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	//该方法内部生成签名字符串，再用于获取完整、已签名的token
+	//This method generates a signature string internally, which is then used to obtain a complete and signed token
 	token, err := tokenClaims.SignedString(jwtSecret)
 	return token, err
 }

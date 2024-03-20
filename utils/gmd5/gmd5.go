@@ -6,7 +6,7 @@ import (
 	"rustdesk-api-server/utils/gconv"
 )
 
-// MD5 加密
+// MD5 encrypt
 func Encrypt(data interface{}) (encrypt string, err error) {
 	return EncryptBytes(gconv.Bytes(data))
 }
@@ -15,7 +15,7 @@ func EncryptNE(data interface{}) (encrypt string) {
 	return
 }
 
-// MD5 字节集计算
+// MD5 Byte set computation
 func EncryptBytes(bytes []byte) (encrypt string, err error) {
 	m := md5.New()
 	if _, err = m.Write(bytes); err != nil {

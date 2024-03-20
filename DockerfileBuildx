@@ -1,6 +1,6 @@
 FROM --platform=$TARGETPLATFORM  alpine:latest
-MAINTAINER Baozi<admin@52nyg.com>
-# 使用变量必须申明
+LABEL maintainer="ronan <ronan@sctg.eu.org>"
+# The use of variables must be declared
 ARG TARGETOS
 ARG TARGETARCH
 ARG TARGETVARIANT
@@ -9,7 +9,7 @@ ARG TARGETVARIANT
 ENV TZ=Asia/Shanghai
 
 
-#5.更新Alpine的软件源为阿里云，因为从默认官源拉取实在太慢了
+#5.Updated Alpine's software source to Alibaba Cloud, because pulling from the default official source is too slow
 RUN echo http://mirrors.aliyun.com/alpine/v3.15/main/ > /etc/apk/repositories && \
     echo http://mirrors.aliyun.com/alpine/v3.15/community/ >> /etc/apk/repositories && \
     apk update && apk upgrade && apk add  wget bash && \
@@ -20,14 +20,14 @@ RUN echo http://mirrors.aliyun.com/alpine/v3.15/main/ > /etc/apk/repositories &&
 ###############################################################################
 #                                INSTALLATION
 ###############################################################################
-# 定义APP运行目录
+# Define the directory where the app runs
 ENV WORKDIR  /app
 
 
-# 导入文件
+# Import the file
 ADD ./dist/rustdesk-api-server_${TARGETOS}_${TARGETARCH}/rustdesk-api-server $WORKDIR/rustdesk-api-server
 
-# 复制配置文件
+# Copy the configuration file
 COPY conf/app.conf /app/conf/app.conf
 
 
@@ -37,5 +37,5 @@ COPY conf/app.conf /app/conf/app.conf
 WORKDIR /app
 ENTRYPOINT ["./rustdesk-api-server"]
 
-# 导出端口号
+# Export port numbers
 EXPOSE 21114

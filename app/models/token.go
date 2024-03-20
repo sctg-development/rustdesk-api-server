@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/beego/beego/v2/client/orm"
 	"log"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 type Token struct {
@@ -21,15 +22,15 @@ func (u *Token) TableName() string {
 	return "rustdesk_token"
 }
 
-// 多字段唯一键
+// Multi-field unique keys
 func (u *Token) TableUnique() [][]string {
 	return [][]string{
-		[]string{"uid", "client_id", "uuid"},
+		{"uid", "client_id", "uuid"},
 	}
 }
 
 func init() {
-	log.Printf("初始化模型")
-	// 初始化模型
+	log.Printf("Initialize the model")
+	// Initialize the model
 	orm.RegisterModel(new(Token))
 }

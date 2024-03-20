@@ -2,16 +2,17 @@ package config
 
 import (
 	"fmt"
-	"github.com/fsnotify/fsnotify"
-	"github.com/spf13/viper"
 	"os"
 	"rustdesk-api-server/constant"
 	"rustdesk-api-server/global"
+
+	"github.com/fsnotify/fsnotify"
+	"github.com/spf13/viper"
 )
 
-// 加载配置项
+// Load the configuration item
 func init() {
-	fmt.Println("加载配置项")
+	fmt.Println("Load the configuration item")
 	var config string
 	if configEnv := os.Getenv(constant.ConfigEnv); configEnv == "" {
 		config = constant.ConfigFile
@@ -19,10 +20,10 @@ func init() {
 		config = configEnv
 	}
 
-	// 判断是否有配置文件
+	// Determine whether there is a configuration file
 	_, err := os.Stat(config)
 	if err != nil && os.IsNotExist(err) {
-		// 配置文件不存在
+		// The configuration file does not exist
 		err := os.WriteFile(config, []byte(`dbtype: 'sqlite3'
 mysql:
   host: '127.0.0.1'
@@ -40,20 +41,20 @@ app:
 
 	v := viper.New()
 
-	// 设置配置文件
+	// Set up a profile
 	v.SetConfigFile(config)
 
-	// 读取配置
+	// Read the configuration
 	err = v.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("加载配置文件失败: %s", err))
+		panic(fmt.Errorf("Failed to load configuration file: %s", err))
 	}
 
-	// 监控配置更新
+	// Monitor configuration updates
 	v.WatchConfig()
 
 	v.OnConfigChange(func(in fsnotify.Event) {
-		fmt.Println("配置文件被修改:", in.Name)
+		fmt.Println("The configuration file is modified:", in.Name)
 		if err := v.Unmarshal(&global.ConfigVar); err != nil {
 			panic(err)
 		}
@@ -62,6 +63,6 @@ app:
 	if err := v.Unmarshal(&global.ConfigVar); err != nil {
 		panic(err)
 	}
-	fmt.Println("加载配置项 完成")
+	fmt.Println("Loading the configuration item is complete")
 
 }
