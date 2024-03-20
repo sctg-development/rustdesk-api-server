@@ -1,6 +1,6 @@
 project_name: rustdesk-api-server
 builds:
-  - env: [ CGO_ENABLED=0 ]
+  - env: [ CGO_ENABLED=1 ]
     flags:
       - -v
     goos:
@@ -23,12 +23,8 @@ builds:
 checksum:
   name_template: 'checksums.txt'
 archives:
-  - replacements:
-      linux: Linux
-      windows: Windows
-      darwin: MacOs
-      386: i386
-      amd64: x86_64
+  - format: tar.gz
+    name_template: 'sctgdesk_api_server_{{ .Os }}_{{ .Arch }}'
     format_overrides:
       - goos: windows
         format: zip
@@ -36,3 +32,14 @@ archives:
       - README.md
       - img.png
       - conf/app.conf
+nfpms:
+  - vendor: "SCTG Development"
+    homepage: "https://sctg.eu.org"
+    maintainer: "Ronan <ronan@sctg.eu.org>"
+    description: "sctgdesk-api-server"
+    license: "Apache-2.0"
+
+brews:
+  - homepage: "https://sctg.eu.org"
+    description: "sctgdesk-api-server"
+    license: "Apache-2.0"
