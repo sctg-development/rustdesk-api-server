@@ -25,5 +25,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	web.SetStaticPath("/", "static")
 	web.Run()
 }

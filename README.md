@@ -90,6 +90,9 @@ On Android, do not need to fill in the `http://` prefix and must be `21114` port
 Request
 <http://127.0.0.1:21114/api/reg?username=test&password=test&auth_key=123456>
 
+UI
+http://127.0.0.1:21114/
+
 ### Modify Password
 
 Request
