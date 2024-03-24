@@ -14,9 +14,9 @@ func GenerateJwtToken(userId int, username, token, clientId, uuid string) (strin
 		ClientId:    clientId,
 		//Uuid:     uuid,
 		StandardClaims: jwt.StandardClaims{
-			// 过期时间
+			// Expiration time
 			ExpiresAt: 0,
-			// 指定token发行人
+			// Specify the token issuer
 			Issuer: "baozier",
 		},
 	}

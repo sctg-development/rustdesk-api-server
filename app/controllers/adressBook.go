@@ -19,7 +19,7 @@ type AddressBookController struct {
 func (ctl *AddressBookController) List() {
 	ack := dto.AbGetAck{}
 	ack.Tags = []string{}
-	// 查询 tags
+	// Inquire tags
 	tag_colors := dto.AbTag_colors{}
 	tags := services.Tags.FindTags(ctl.loginUserInfo.Id)
 	for _, item := range tags {
