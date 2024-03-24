@@ -61,8 +61,8 @@ func (ctl *AddressBookController) List() {
 				Id:       item.ClientId,
 				Username: "----",
 				Hostname: item.ClientId,
-				Alias:    "本号归属:" + item.ClientId,
-				Platform: "无",
+				Alias:    "Alias:" + item.ClientId,
+				Platform: "os",
 				Tags:     strings.Split("", ","),
 			})
 		}
