@@ -31,6 +31,31 @@ app:
   cryptkey: 123123123123  # password encryption salt value, recommended not to change after the first modification
 ```
 
+### S3 Client Download
+by adding the following configuration to the configuration file, you can download obtain dynamically from the S3 server a download link for the RustDesk client:
+
+```yaml
+s3:
+  Endpoint: https://random.objectstorage.eu-par-1.oraclecloud.com
+  Region: eu-par-1
+  AccessKey: 2b3e1f4a5c6d7e8f9a0b1c2d3e4f5g6h7i8j9k0l
+  SecretKey: R5sT8uVwX1yZ2aB3cD4eF5gH6iJ7kL8mN9oP0qR1s
+  Bucket: randombucket123
+  Windows64Key: master/sctgdesk-releases/sctgdesk-2.0.1-x86_64.exe
+  Windows32Key: master/sctgdesk-releases/sctgdesk-2.0.1-i686.exe
+  OSXKey: master/sctgdesk-releases/sctgdesk-2.0.1.dmg
+  OSXArm64Key: master/sctgdesk-releases/sctgdesk-2.0.1.dmg
+```
+
+The api endpoint for the download link is `/api/software/client-download-link/os` where `os` can be `windows64`, `windows32`, `osx` or `osxarm64`.
+the api will return a json object with the download link for the client. Links are valid for 15 minutes.
+
+```json
+{
+    "url": "https://random.objectstorage.eu-par-1.oraclecloud.com/master/sctgdesk-2.0.1.dmg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=949a57ffdc586d72961ccab7618b9d58a7372d40%2F20240324%2Feu-marseille-1%2Fs3%2Faws4_request&X-Amz-Date=20240324T175308Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=43cebc953df3f9cc1ed8ba51191956f0e3ade9db27684107cbad8c9c9605394b"
+}
+```
+
 ### Set Up and Run
 
 1. Run the program

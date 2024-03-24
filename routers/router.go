@@ -39,7 +39,11 @@ func init() {
 	beego.Router("/api/set-pwd", &controllers.UserController{}, "get:SetPwd")
 	beego.Router("/api/users", &controllers.UserController{}, "get:Users")
 	beego.Router("/api/peers", &controllers.UserController{}, "get:Peers")
-
+	beego.Router("/api/software/info", &controllers.SoftwareController{}, "get:GetSoftwareInfo")
+	beego.Router("/api/software/client-download-link/w64", &controllers.SoftwareController{}, "get:GetClientDownloadLinkW64")
+	beego.Router("/api/software/client-download-link/w32", &controllers.SoftwareController{}, "get:GetClientDownloadLinkW32")
+	beego.Router("/api/software/client-download-link/osx", &controllers.SoftwareController{}, "get:GetClientDownloadLinkOSX")
+	beego.Router("/api/software/client-download-link/osxarm64", &controllers.SoftwareController{}, "get:GetClientDownloadLinkOSXArm64")
 	// Set up an error route
 	beego.ErrorController(&controllers.ErrorController{})
 }
