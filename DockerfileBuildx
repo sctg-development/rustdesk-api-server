@@ -6,7 +6,7 @@ ARG TARGETARCH
 ARG TARGETVARIANT
 
 # time zone
-ENV TZ=Asia/Shanghai
+ENV TZ=UTC
 
 
 #5.Updated Alpine's software source to Alibaba Cloud, because pulling from the default official source is too slow

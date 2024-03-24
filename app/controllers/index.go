@@ -9,7 +9,7 @@ type IndexController struct {
 func (ctl *IndexController) Index() {
 	ctl.JSON(common.JsonResult{
 		Code:  1,
-		Msg:   "Welcome, author github: https://github.com/sctg-development",
+		Msg:   "Welcome, source code is available on github: https://github.com/sctg-development",
 		Data:  nil,
 		Count: 0,
 	})
