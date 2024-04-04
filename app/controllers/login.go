@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"rustdesk-api-server/app/dto"
 	"rustdesk-api-server/app/services"
 	"rustdesk-api-server/utils/beegoHelper"
@@ -64,6 +65,13 @@ func (ctl *LoginController) Login() {
 			},
 		})
 
+	}
+	if ctl.Ctx.Input.IsGet() {
+		fmt.Println(ctl.Ctx.Request.URL.Query())
+		ctl.JSON(common.JsonResult{
+			Code:  -1,
+			Error: "Not -yet- implemented",
+		})
 	}
 
 }
