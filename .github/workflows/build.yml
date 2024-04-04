@@ -28,7 +28,7 @@ jobs:
 
       
     - name: Create release on GitHub
-      uses: docker://goreleaser/goreleaser:latest
+      uses: docker://goreleaser/goreleaser-cross:latest
       with:
         args: release
       env:

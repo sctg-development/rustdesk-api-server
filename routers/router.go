@@ -26,7 +26,9 @@ func init() {
 	// Set the routing information
 	beego.Router("/", &controllers.IndexController{}, "get:Index")
 	beego.Router("/api/heartbeat", &controllers.HeartController{}, "post:Heart")
+	beego.Router("/api/sysinfo", &controllers.SysinfoController{}, "post:Sysinfo")
 	beego.Router("/api/login", &controllers.LoginController{}, "post:Login")
+	beego.Router("/api/login-options", &controllers.LoginController{}, "post:Login")
 	beego.Router("/api/ab", &controllers.AddressBookController{}, "post:Update")
 	// for v1.2.2 client compatiblity
 	beego.Router("/api/ab", &controllers.AddressBookController{}, "get:List")
