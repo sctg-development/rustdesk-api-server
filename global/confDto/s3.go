@@ -10,4 +10,5 @@ type S3Config struct {
 	Windows32Key string
 	OSXKey       string
 	OSXArm64Key  string
+	IOSKey       string
 }

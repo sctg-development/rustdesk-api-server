@@ -33,7 +33,18 @@ mysql:
   password: ''
 app:
   authkey: 123456
-  cryptkey: NanEVhjEwuPSemoJkwcYEcjDJRVWcZfb9bIIZcBeswhPP`), 0777)
+  cryptkey: NanEVhjEwuPSemoJkwcYEcjDJRVWcZfb9bIIZcBeswhPP
+  s3:
+  Endpoint: https://compat.objectstorage.eu-marseille-1.oraclecloud.com
+  Region: eu-marseille-1
+  AccessKey: f4231cb4d732c805a1f04b7b348af3be83c0ecd2
+  SecretKey: NmEzZDM3Y2EyYTBjNDY3MmFjYjUwOTRhNjczYTEwMzUK
+  Bucket: NjczYTEwMzUK
+  Windows64Key: master/rustdesk-releases/rustdesk-1.2.4-x86_64.exe
+  Windows32Key: master/rustdesk-releases/rustdesk-1.2.4-i686.exe
+  OSXKey: master/rustdesk-releases/rustdesk-1.2.4.dmg
+  OSXArm64Key: master/rustdesk-releases/rustdesk-1.2.4.dmg
+  IOSKey: master/rustdesk-releases/rustdesk-1.2.4.ipa`), 0777)
 		if err != nil {
 			panic(err)
 		}

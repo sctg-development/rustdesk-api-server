@@ -82,3 +82,7 @@ func (ctl *SoftwareController) GetClientDownloadLinkOSX() {
 func (ctl *SoftwareController) GetClientDownloadLinkOSXArm64() {
 	ctl.GetClientDownloadLink(global.ConfigVar.S3.OSXArm64Key)
 }
+
+func (ctl *SoftwareController) GetClientDownloadLinkIOS() {
+	ctl.GetClientDownloadLink(global.ConfigVar.S3.IOSKey)
+}

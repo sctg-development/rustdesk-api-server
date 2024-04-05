@@ -47,6 +47,7 @@ func init() {
 	beego.Router("/api/software/client-download-link/w32", &controllers.SoftwareController{}, "get:GetClientDownloadLinkW32")
 	beego.Router("/api/software/client-download-link/osx", &controllers.SoftwareController{}, "get:GetClientDownloadLinkOSX")
 	beego.Router("/api/software/client-download-link/osxarm64", &controllers.SoftwareController{}, "get:GetClientDownloadLinkOSXArm64")
+	beego.Router("/api/software/client-download-link/ios", &controllers.SoftwareController{}, "get:GetClientDownloadLinkIOS")
 	// Set up an error route
 	beego.ErrorController(&controllers.ErrorController{})
 }
